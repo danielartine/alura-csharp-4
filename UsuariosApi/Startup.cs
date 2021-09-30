@@ -36,6 +36,7 @@ namespace UsuariosApi
                 .AddIdentity<IdentityUser<int>, IdentityRole<int>>(opt =>
                 {
                     opt.SignIn.RequireConfirmedEmail = true;
+                    opt.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();
