@@ -13,12 +13,14 @@ namespace UsuariosApi.Services
 {
     public class TokenService
     {
-        public Token CreateToken(IdentityUser<int> usuario)
+        public Token CreateToken(IdentityUser<int> usuario, string role)
         {
+            
             Claim[] direitosUsuario = new Claim[]
             {
                 new Claim("username", usuario.UserName),
-                new Claim("id", usuario.Id.ToString())
+                new Claim("id", usuario.Id.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var chave = new SymmetricSecurityKey(
@@ -29,7 +31,7 @@ namespace UsuariosApi.Services
             var token = new JwtSecurityToken(
                 claims: direitosUsuario,
                 signingCredentials: credenciais,
-                expires: DateTime.UtcNow.AddHours(1)
+                expires: DateTime.UtcNow.AddMinutes(1)
                 );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
